@@ -1,11 +1,9 @@
-package com.sexycode.simplerpc.reuqest;
+package com.sexycode.simplerpc.common.reuqest;
 
 import java.io.Serializable;
 
 /**
- * <p>
- *
- * @author: hzy created on 2018/05/02
+ * 承载了协议类型、调用协议的方法、参数等。
  */
 public class CalculateRpcRequest implements Serializable {
 
