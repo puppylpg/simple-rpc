@@ -59,9 +59,9 @@ A simple rpc framework.
 实现上可以使用**wait-notify**机制：
 - client的一个线程（一个代理人员）发送任务，然后将request id和callback对象的对应关系存起来，比如ConcurrentHashMap；
 - 该线程调用callback对象的get方法，方法内部，判断是否有结果，有则返回，没有则**wait**：
-```
+```java
 public Object get() {
-    // 锁住该callback对象
+    // 获取该callback对象的锁
     synchronized(this) {
         // 使用while而非if判断是否完成（如果被恶意唤醒，实际还没完成，使用if就凉了）
         while(!isDone) {
@@ -75,9 +75,9 @@ public Object get() {
 ```
 - client监听线程接收到结果之后，反序列化，根据request id，从ConcurrentHashMap中找到对应的callback对象；
 - 设置结果到callback对象里，然后唤醒阻塞的线程：
-```
+```java
 private void doneJob(Object response) {
-    // 锁住该callback对象
+    // 获取该callback对象的锁
     synchronized(this) {
         // 设置结果
         this.result = response;
